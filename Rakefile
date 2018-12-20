@@ -22,6 +22,11 @@ namespace :clips do
 
       puts 'Adding to playlist...'
       append_to_playlist(clip_url, directory)
+
+      puts 'Adding to ffmpeg manifest...'
+      append_to_ffmpeg_manifest(directory, sanitized_clip_date)
+
+      puts ''
     end
 
     puts 'Done!'
@@ -53,5 +58,14 @@ def append_to_playlist(url, directory)
 
   open(filename_with_path, 'a') do |io|
     io.puts(url)
+  end
+end
+
+def append_to_ffmpeg_manifest(directory, filename)
+  filename_with_path = File.join(directory, '_ffmpegmanifest.txt')
+
+  open(filename_with_path, 'a') do |io|
+    line = "file '#{filename}'"
+    io.puts(line)
   end
 end
